@@ -216,7 +216,7 @@ void draw_maze()
 void save_maze()
 {
   String date_time = year() + nf(month(),2) + nf(day(),2) + " " +  nf(hour(), 2) + "h" + nf(minute(), 2) + "m" + nf(second(), 2) + "s";
-  saveFrame("maze " + date_time + ".png");
+  saveFrame("snapshot maze " + date_time + ".png");
   println( "saved at " + date_time);
 }
 
