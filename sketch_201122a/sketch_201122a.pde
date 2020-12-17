@@ -10,7 +10,7 @@ int startCol = 0;
 int ROWS = 80;
 int COLS = 50;
 
-int CELLSIZE = 5;
+int CELLSIZE = 10;
 
 boolean use_cellsize_for_rows_and_cols = true;
 
@@ -20,6 +20,7 @@ int Y;
 int[][] L ;  //the maze
 boolean[][] RW; //right walls
 boolean[][] DW; //down walls
+int[][] P;  // probability matrix
 
 boolean CaseTrouvee ;
 
@@ -54,6 +55,7 @@ void init_variables()
     RW = new boolean[COLS][ROWS];
     DW = new boolean[COLS][ROWS];
     L = new int[COLS][ROWS];
+    P = new int[COLS][ROWS];
 
     for (int i = 0; i < ROWS; i = i+1) {
         for (int j = 0; j < COLS; j = j+1) {
@@ -61,6 +63,8 @@ void init_variables()
             DW[j][i] = true;
         }
     } 
+    
+    calculate_probability_matrix();
 }
 
 void calculate_maze()
@@ -129,10 +133,10 @@ void calculate_maze()
 void do_move()
 {
   int probabilities[] = 
-    { (Y>0      && L[X][Y-1]==0)?(X%3==0)?3:1:0,  // up
-      (X<COLS-1 && L[X+1][Y]==0)?1:0,  // right
-      (Y<ROWS-1 && L[X][Y+1]==0)?1:0,  // down
-      (X>0      && L[X-1][Y]==0)?1:0 } // left
+    { (Y>0      && L[X][Y-1]==0)?P[X][Y-1]:0,  // up
+      (X<COLS-1 && L[X+1][Y]==0)?P[X+1][Y]:0,  // right
+      (Y<ROWS-1 && L[X][Y+1]==0)?P[X][Y+1]:0,  // down
+      (X>0      && L[X-1][Y]==0)?P[X-1][Y]:0 } // left
       ;
       
    int total_probabilities = probabilities[0] + probabilities[1] + probabilities[2] + probabilities[3];
@@ -216,27 +220,36 @@ void draw_maze()
 void save_maze()
 {
   String date_time = year() + nf(month(),2) + nf(day(),2) + " " +  nf(hour(), 2) + "h" + nf(minute(), 2) + "m" + nf(second(), 2) + "s";
-  saveFrame("snapshot maze " + date_time + ".png");
+  saveFrame("output/snapshot maze " + date_time + ".png");
   println( "saved at " + date_time);
 }
 
-void create_probability_matrix()
+void calculate_probability_matrix()
 {
+  PFont f;                           
+
   PGraphics pg;
-PFont f;                           
-
-  pg = createGraphics(124, 92);
-  f = createFont("",40,true); 
+  pg = createGraphics(COLS, ROWS);
+  int fontSize = COLS * 45 / 100;
+  f = createFont("", fontSize, true); 
   
-    pg.beginDraw();
-    pg.background(255);
-    pg.textFont(f,40);
-    pg.fill(0);
-    pg.textAlign(CENTER,CENTER);
-    pg.text("OTTO", pg.width/2, pg.height/2);
-    pg.endDraw();
-
-
+  pg.beginDraw();
+  pg.background(255);
+  pg.textFont(f, fontSize);
+  pg.fill(0);
+  pg.textAlign(CENTER,CENTER);
+  pg.text("OTTO", COLS/2, ROWS/2);
+  pg.endDraw();
+  
+  pg.loadPixels();
+  
+  for (int i = 0; i < ROWS; i++) {
+      for (int j = 0; j < COLS; j++) {
+          P[j][i] = 1+(int)(100*brightness(pg.pixels[i*COLS + j]));
+          //P[j][i] = (i-j)%10==0?1000:1; 
+      }
+  }
+  
 }
 
 //file end

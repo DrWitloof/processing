@@ -16,6 +16,7 @@ PVector snowflake_offset;
 
 PFont snowflake_font;
 PFont explanation_font;
+PFont title_font;
 
 color red = color( 233, 32, 46), 
   orange = color( 232, 156, 27), 
@@ -36,7 +37,8 @@ void setup()
   textAlign(CENTER, BASELINE);
 
   snowflake_font = createFont("Inter-SemiBold.ttf", width/25);
-  explanation_font = createFont("Inter-SemiBold.ttf", width * 3/100);
+  explanation_font = createFont("Inter-SemiBold.ttf", width * 3/150); 
+  title_font = createFont("Inter-SemiBold.ttf", width * 4/100); 
   textFont(snowflake_font);
 
   setup_hex();
@@ -108,12 +110,26 @@ void draw_background()
 
 void draw_explanation() {
   push();
-  fill(white);
+
   
+  fill(white);
+  textFont(title_font);
+  text("Bakkerij BREAD PITT herdenkt bakker Witloof", width/2, height/16 + 0*textAscent());
+
+  fill(lightgrey);
   textFont(explanation_font);
-  text("Colour in the snowflake so that each circle", width/2, height/15);
-  text("of six hexagons surrounding a grey hexagon", width/2, height/15 + 1.5*textAscent());
-  text("uses each of the six colours once.", width/2, height/15 + 3*textAscent());
+  
+  String t1 = "Colour in the snowflake so that each circle";
+  String t2 = "of six hexagons surrounding a grey hexagon";
+  String t3 = "uses each of the six colours once.";
+  
+  t1 = "Kleur de sneeuwvlok, zodat elke cirkel";
+  t2 = "van 6 zeshoeken rond een grijze zeshoek";
+  t3 = "elk van de 6 kleuren 1 keer gebruikt.";
+  
+  text(t1, width/2, height/15 + 2*textAscent());
+  text(t2, width/2, height/15 + 3.5*textAscent());
+  text(t3, width/2, height/15 + 5*textAscent());
   pop();
 }
 
@@ -193,7 +209,9 @@ void draw_snowflake()
 }
 
 String solution_colors = "RRROOOYYYGGBBVV";
-String solution =        "HAPPY HOLLIDAYS";
+//String solution =        "HAPPY HOLLIDAYS";
+//String solution =          "GODJULGODTNYTÅR";
+String solution =          "WWOLVES GO HOME";
 String empty =           "               ";
 
 void draw_solution()
@@ -273,9 +291,11 @@ void mousePressed()
   modus = (modus+1)%SHOW_MAX;
 }
 
-void keyPressed()
-{
-  modus = (modus+1)%SHOW_MAX;
+
+void keyPressed() {
+  String date_time = year() + nf(month(),2) + nf(day(),2) + " " +  nf(hour(), 2) + "h" + nf(minute(), 2) + "m" + nf(second(), 2) + "s";
+  saveFrame("xmas " + date_time + ".png");
+  println("printed at " + date_time);
 }
 
 String replaceCharAt(String s, int pos, char c) {
