@@ -294,7 +294,7 @@ void mousePressed()
 
 void keyPressed() {
   String date_time = year() + nf(month(),2) + nf(day(),2) + " " +  nf(hour(), 2) + "h" + nf(minute(), 2) + "m" + nf(second(), 2) + "s";
-  saveFrame("xmas " + date_time + ".png");
+  saveFrame("output/xmas " + date_time + ".png");
   println("printed at " + date_time);
 }
 
