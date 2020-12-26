@@ -1,6 +1,6 @@
 /*
 
-ffmpeg -i gif-%04d.png -c:v libx264 -vf "fps=25,format=yuv420p" -loop=0 out.mp4
+ffmpeg -i gif-%04d.png -c:v libx264 -vf "fps=25,format=yuv420p" -loop 0 out.mp4
 // ffmpeg -i out.mp4 -vf "scale=600:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=24:stats_mode=diff[p];[s1][p]paletteuse=dither=bayer:bayer_scale=2" out.gif
 
 // https://imagemagick.org/script/download.php#windows
@@ -164,9 +164,7 @@ PGraphics create_text_img(String text)
   PGraphics pg = createGraphics(text_width, int(textAscent() + textDescent()), P2D);
   
   pg.beginDraw();
-//  text_image.background(color(123,55,35));
   pg.fill(color_text);
-//  text_image.stroke();
   pg.textFont(font);
   pg.textSize(text_size);
   pg.textAlign(LEFT,TOP);
