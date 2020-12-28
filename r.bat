@@ -5,6 +5,10 @@ for /f "delims=" %%F in ('dir sketch* /b /d') DO ( set old_dir_name=%%F& goto :e
 
 :exit_for1
 
+if [%old_dir_name%]==[] goto :endtheprogram
+
+echo Found [%old_dir_name%]
+
 set /p new_dir_name=rename to: 
 
 set jr=%Date:~9,4%
