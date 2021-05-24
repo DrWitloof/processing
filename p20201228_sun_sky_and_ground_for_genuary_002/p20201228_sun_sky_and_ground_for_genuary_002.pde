@@ -3,9 +3,9 @@ int o = 15;
 float cloud_height;
 int rain_height;
 
-float sun_speed = 2.0;
-float cloud_speed = 3.0;
-float rain_speed = 5;
+float sun_speed = 3.0;
+float cloud_speed = 4.0;
+float rain_speed = 6;
 
 void setup()
 {
@@ -60,18 +60,20 @@ void draw()
   copy( cloudPG.get(), 0, 0, width, cloudPG.height, cloud_left, 0, width, cloudPG.height);
   copy( cloudPG.get(), 0, 0, width, cloudPG.height, cloud_left-width, 0, width, cloudPG.height);
 
+  
 
-
-  if( 1==10)
+  if( 1==1)
   {
-    if (frameCount < 400 ) 
+    if (frameCount < 300 ) 
       saveFrame("output/gif-"+width+"x"+height+"-"+nf(frameCount, 4)+".png");
   } 
   stroke(0);
   fill(150);
   textSize(32);
   text("fc" + frameCount, 80*width/100, 95*height/100);
-  text("fr" + frameRate, 80*width/100, 98*height/100);}
+  text("fr" + frameRate, 80*width/100, 98*height/100);
+
+}
 
 PGraphics landandskyPG;
 
@@ -186,8 +188,8 @@ void createCloudPGRecurse(float x, float y, float w)
   for (int i = 0; i < 2; i++)
   {
     createCloudPGRecurse(
-      x + random(-2.2*w, 2.2*w), 
-      y + random(-w/1.8, w/2.2), 
+      x + random(-2.5*w, 2.5*w), 
+      y + random(-w/2.2, w/1.8), 
       max(1.0, w - random(10)));
   }
 }
@@ -196,12 +198,12 @@ PGraphics rainPG;
 
 void createRainPG()
 {
-  int raindrops = 30;
+  int raindrops = 40;
 
   float raindrop_height = 18;
   float raindrops_apart = (width-2*o)/raindrops;
   float overlap_factor = 0.8;
-  int rain30h = 95;
+  int rain30h = 80;
   int rain30w = rain30h * 2;
   int rain30m = rain30w / 2;
   int [][] rain30 = new int[rain30h][rain30w];
